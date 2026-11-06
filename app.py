@@ -22,3 +22,15 @@ st.write(
     "suit-elle la chaleur, ou les heures de courant ?"
 )
 st.write(f"Le fichier propre compte {len(df)} lignes.")
+
+communes = sorted(df["commune"].unique())
+choix = st.sidebar.multiselect("Communes", communes, default=communes)
+
+annees = sorted(df["annee"].unique())
+annee = st.sidebar.selectbox("Année", annees, index=len(annees) - 1)
+
+if not choix:
+    st.warning("Choisissez au moins une commune.")
+    st.stop()
+
+filtre = df[(df["commune"].isin(choix)) & (df["annee"] == annee)]
